@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://backendrender-vn6w.onrender.com/api'
+  apiUrl: process.env?.['API_URL'] || 'https://backendrender-vn6w.onrender.com/api'
 };
