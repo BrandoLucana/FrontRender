@@ -1,0 +1,204 @@
+<div class="form-container">
+  <div class="form-header">
+    <div class="form-icon-wrapper">
+      <svg class="form-icon" width="60" height="60" viewBox="0 0 100 100">
+        <polygon points="50,10 75,30 75,50 50,90 25,50 25,30" fill="#8B1538" stroke="#000" stroke-width="3"/>
+        <polygon points="50,10 75,30 75,50 50,90" fill="#A01B42" opacity="0.9"/>
+        <polygon points="50,10 25,30 25,50 50,90" fill="#ffffff" opacity="0.95"/>
+        <polygon points="50,25 65,40 65,50 50,75" fill="#ffffff" opacity="0.9"/>
+        <polygon points="50,25 35,40 35,50 50,75" fill="#8B1538"/>
+        <circle cx="50" cy="50" r="12" fill="#1a1d29" stroke="#8B1538" stroke-width="2"/>
+        <circle cx="50" cy="50" r="6" fill="#8B1538"/>
+      </svg>
+      <svg class="worker-icon" width="40" height="40" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+      </svg>
+    </div>
+    <h1>{{ isEdit ? 'Editar Trabajador' : 'Nuevo Trabajador' }}</h1>
+    <p>Complete la información del trabajador</p>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="trabajador-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombre">Nombre *</label>
+        <input
+          type="text"
+          id="nombre"
+          [(ngModel)]="trabajador.nombre"
+          name="nombre"
+          placeholder="Ingrese el nombre"
+          [disabled]="isLoading"
+          (input)="onNombreInput($event)"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="apellido">Apellido *</label>
+        <input
+          type="text"
+          id="apellido"
+          [(ngModel)]="trabajador.apellido"
+          name="apellido"
+          placeholder="Ingrese el apellido"
+          [disabled]="isLoading"
+          (input)="onApellidoInput($event)"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cargo">Cargo *</label>
+        <div class="custom-select-wrapper">
+          <select
+            id="cargo"
+            [(ngModel)]="trabajador.cargo"
+            name="cargo"
+            class="custom-select"
+            [disabled]="isLoading"
+            required
+          >
+            <option value="" disabled selected>Seleccione un cargo...</option>
+            <option *ngFor="let cargo of cargos" [value]="cargo">
+              {{ cargo.replace('_', ' ') }}
+            </option>
+          </select>
+          <div class="select-arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fechaIngreso">Fecha de Ingreso * (formato: d/m/yyyy)</label>
+        <input
+          type="text"
+          id="fechaIngreso"
+          [(ngModel)]="trabajador.fechaIngreso"
+          name="fechaIngreso"
+          placeholder="26/1/2026"
+          [disabled]="isLoading || isEdit"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tipoDocumento">Tipo de Documento *</label>
+        <div class="custom-select-wrapper">
+          <select
+            id="tipoDocumento"
+            [(ngModel)]="trabajador.tipoDocumento"
+            name="tipoDocumento"
+            class="custom-select"
+            [disabled]="isLoading"
+            (change)="onTipoDocumentoChange()"
+            required
+          >
+            <option *ngFor="let tipo of tiposDocumento" [value]="tipo">
+              {{ tipo.replace('_', ' ') }}
+            </option>
+          </select>
+          <div class="select-arrow">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="numeroDocumento">Número de Documento *</label>
+        <input
+          type="text"
+          id="numeroDocumento"
+          [(ngModel)]="trabajador.numeroDocumento"
+          name="numeroDocumento"
+          [placeholder]="getNumeroDocumentoPlaceholder()"
+          [disabled]="isLoading"
+          (input)="onNumeroDocumentoInput($event)"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="trabajador.email"
+          name="email"
+          placeholder="ejemplo@correo.com"
+          [disabled]="isLoading"
+          (input)="onEmailInput($event)"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono *</label>
+        <input
+          type="tel"
+          id="telefono"
+          [(ngModel)]="trabajador.telefono"
+          name="telefono"
+          placeholder="+1234567890"
+          [disabled]="isLoading"
+          inputmode="numeric"
+          pattern="\d*"
+          (input)="onTelefonoInput($event)"
+          required
+        />
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="message message-error">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+      </svg>
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="message message-success">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      {{ successMessage }}
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()" class="btn btn-secondary" [disabled]="isLoading">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <span *ngIf="!isLoading">{{ isEdit ? 'Actualizar' : 'Guardar' }}</span>
+        <span *ngIf="isLoading">Guardando...</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal de Confirmación de Edición -->
+<div *ngIf="showConfirmModal" class="modal-overlay" (click)="cancelConfirm()">
+  <div class="modal-content modal-small modal-confirm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Confirmar Cambios</h2>
+      <button (click)="cancelConfirm()" class="close-btn">×</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Deseas guardar los cambios del trabajador?</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="cancelConfirm()" class="btn btn-secondary">Cancelar</button>
+      <button (click)="confirmEdit()" class="btn btn-primary">Confirmar</button>
+    </div>
+  </div>
+</div>

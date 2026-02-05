@@ -1,0 +1,318 @@
+<div class="trabajadores-container">
+  <div class="page-header">
+    <div class="header-title">
+      <svg class="umbrella-icon" width="32" height="32" viewBox="0 0 100 100">
+        <polygon points="50,10 75,30 75,50 50,90 25,50 25,30" fill="#8B1538" stroke="#000" stroke-width="3"/>
+        <polygon points="50,10 75,30 75,50 50,90" fill="#A01B42" opacity="0.9"/>
+        <polygon points="50,10 25,30 25,50 50,90" fill="#ffffff" opacity="0.95"/>
+        <polygon points="50,25 65,40 65,50 50,75" fill="#ffffff" opacity="0.9"/>
+        <polygon points="50,25 35,40 35,50 50,75" fill="#8B1538"/>
+        <circle cx="50" cy="50" r="12" fill="#1a1d29" stroke="#8B1538" stroke-width="2"/>
+        <circle cx="50" cy="50" r="6" fill="#8B1538"/>
+      </svg>
+      <h1>UMBRELLA - Gestión de Trabajadores</h1>
+      <p class="subtitle">Sistema de Control de Personal</p>
+    </div>
+    <button routerLink="/dashboard/nuevo-trabajador" class="btn btn-primary">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+      </svg>
+      Nuevo Trabajador
+    </button>
+  </div>
+
+  <!-- Búsqueda Avanzada -->
+  <div class="search-section">
+    <div class="search-header">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+      </svg>
+      <h3>Búsqueda Avanzada</h3>
+    </div>
+    <div class="search-compact-grid">
+      <div class="search-field">
+        <label>Nombre o Apellido</label>
+        <input
+          type="text"
+          [(ngModel)]="searchNombre"
+          (input)="onSearchChange()"
+          placeholder="Buscar...">
+      </div>
+      <div class="search-field">
+        <label>Fecha de Ingreso</label>
+        <input
+          type="text"
+          [(ngModel)]="searchFecha"
+          (input)="onSearchChange()"
+          placeholder="dd/mm/yyyy">
+      </div>
+      <div class="search-actions">
+        <button (click)="limpiarBusqueda()" class="btn-clear">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtro de Estado -->
+  <div class="filters-bar">
+    <div class="filter-group">
+      <label>Mostrar:</label>
+      <button
+        [class.active]="filtroEstado === 'TODOS'"
+        (click)="cambiarFiltro('TODOS')"
+        class="filter-btn">
+        Todos ({{ getContadorTotal() }})
+      </button>
+      <button
+        [class.active]="filtroEstado === 'ACTIVO'"
+        (click)="cambiarFiltro('ACTIVO')"
+        class="filter-btn filter-activo">
+        Activos ({{ getContadorActivos() }})
+      </button>
+      <button
+        [class.active]="filtroEstado === 'INACTIVO'"
+        (click)="cambiarFiltro('INACTIVO')"
+        class="filter-btn filter-inactivo">
+        Inactivos ({{ getContadorInactivos() }})
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando trabajadores...</p>
+  </div>
+
+  <div *ngIf="!isLoading && trabajadoresFiltrados.length === 0" class="empty-state">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="50" fill="#e5e7eb"/>
+      <path d="M60 40 L60 80 M40 60 L80 60" stroke="#9ca3af" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <h3>No hay trabajadores {{ filtroEstado === 'TODOS' ? 'registrados' : filtroEstado.toLowerCase() + 's' }}</h3>
+    <p>{{ filtroEstado === 'INACTIVO' ? 'No hay trabajadores inactivos' : 'Comienza agregando un nuevo trabajador' }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && trabajadoresFiltrados.length > 0" class="table-container">
+    <table class="trabajadores-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre Completo</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Tipo Doc.</th>
+          <th>N° Doc.</th>
+          <th>Cargo</th>
+          <th>Fecha Ingreso</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trabajador of trabajadoresFiltrados"
+            [class.selected]="selectedTrabajador?.id === trabajador.id"
+            [class.inactive-row]="trabajador.estadoRegistro === 'INACTIVO'">
+          <td>{{ trabajador.id }}</td>
+          <td class="name-cell">
+            <div class="avatar">{{ trabajador.nombre.charAt(0) }}{{ trabajador.apellido.charAt(0) }}</div>
+            <span>{{ trabajador.nombre }} {{ trabajador.apellido }}</span>
+          </td>
+          <td>{{ trabajador.email }}</td>
+          <td>{{ trabajador.telefono }}</td>
+          <td>{{ trabajador.tipoDocumento }}</td>
+          <td>{{ trabajador.numeroDocumento }}</td>
+          <td>
+            <span class="cargo-badge">{{ trabajador.cargo }}</span>
+          </td>
+          <td>{{ trabajador.fechaIngreso }}</td>
+          <td>
+            <span class="badge" [ngClass]="getEstadoBadgeClass(trabajador.estadoRegistro)">
+              {{ trabajador.estadoRegistro }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <button (click)="viewDetails(trabajador)" class="btn-icon btn-info" title="Ver Detalles">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                <path d="M9 4.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zM3.5 9a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z"/>
+                <path d="M9 7a2 2 0 100 4 2 2 0 000-4z"/>
+              </svg>
+            </button>
+            <button (click)="editTrabajador(trabajador)" class="btn-icon btn-warning" title="Editar">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                <path d="M12.854 1.646a.5.5 0 010 .708l-9 9a.5.5 0 01-.708 0l-2-2a.5.5 0 11.708-.708L3 9.793l8.646-8.647a.5.5 0 01.708 0z"/>
+                <path d="M15.207 3.293a1 1 0 010 1.414l-9 9a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L5.5 11.586l8.293-8.293a1 1 0 011.414 0z"/>
+              </svg>
+            </button>
+            <button (click)="asignarProyecto(trabajador)" class="btn-icon btn-success" title="Asignar Proyecto">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                <path fill-rule="evenodd" d="M9 3a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H4a1 1 0 110-2h4V4a1 1 0 011-1z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <button
+              *ngIf="trabajador.estadoRegistro === 'ACTIVO'"
+              (click)="confirmToggleStatus(trabajador)"
+              class="btn-icon btn-danger"
+              title="Desactivar">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 3a2 2 0 012-2h4a2 2 0 012 2v1h3a1 1 0 110 2h-1v9a2 2 0 01-2 2H5a2 2 0 01-2-2V6H2a1 1 0 010-2h3V3zm2 0h4v1H7V3zm1 4a1 1 0 011 1v5a1 1 0 11-2 0V8a1 1 0 011-1zm4 0a1 1 0 011 1v5a1 1 0 11-2 0V8a1 1 0 011-1z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <button
+              *ngIf="trabajador.estadoRegistro === 'INACTIVO'"
+              (click)="confirmToggleStatus(trabajador)"
+              class="btn-icon btn-success"
+              title="Restaurar">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+                <path fill-rule="evenodd" d="M15.707 5.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L8 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal de Detalles -->
+<div *ngIf="showProyectos" class="modal-overlay" (click)="closeDetails()">
+  <div class="modal-content modal-details" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Detalles del Trabajador</h2>
+      <button (click)="closeDetails()" class="close-btn">×</button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedTrabajador">
+      <div class="trabajador-info">
+        <div class="info-avatar">
+          {{ selectedTrabajador.nombre.charAt(0) }}{{ selectedTrabajador.apellido.charAt(0) }}
+        </div>
+        <div class="info-details">
+          <h3>{{ selectedTrabajador.nombre }} {{ selectedTrabajador.apellido }}</h3>
+          <p><strong>Email:</strong> {{ selectedTrabajador.email }}</p>
+          <p><strong>Teléfono:</strong> {{ selectedTrabajador.telefono }}</p>
+          <p><strong>Documento:</strong> {{ selectedTrabajador.tipoDocumento }} {{ selectedTrabajador.numeroDocumento }}</p>
+          <p><strong>Cargo:</strong> <span class="cargo-badge">{{ selectedTrabajador.cargo }}</span></p>
+          <p><strong>Fecha Ingreso:</strong> {{ selectedTrabajador.fechaIngreso }}</p>
+          <p><strong>Estado:</strong>
+            <span class="badge" [ngClass]="getEstadoBadgeClass(selectedTrabajador.estadoRegistro)">
+              {{ selectedTrabajador.estadoRegistro }}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="proyectos-section">
+        <div class="section-header">
+          <h3>Proyectos Asignados ({{ proyectosTrabajador.length }})</h3>
+        </div>
+
+        <div *ngIf="proyectosTrabajador.length === 0" class="empty-proyectos">
+          <p>No tiene proyectos asignados</p>
+        </div>
+
+        <div *ngIf="proyectosTrabajador.length > 0" class="proyectos-list">
+          <div *ngFor="let proyecto of proyectosTrabajador" class="proyecto-card">
+            <h4>{{ proyecto.titulo }}</h4>
+            <p>{{ proyecto.descripcion }}</p>
+            <div class="proyecto-meta">
+              <span><strong>Asignación:</strong> {{ proyecto.fechaAsignacion }}</span>
+              <span><strong>Límite:</strong> {{ proyecto.fechaLimite }}</span>
+              <span class="badge" [ngClass]="getEstadoProyectoBadgeClass(proyecto.estado)">
+                {{ proyecto.estado }}
+              </span>
+            </div>
+            <div class="proyecto-actions">
+              <button (click)="editProyecto(proyecto)" class="btn btn-sm btn-warning">Editar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Asignación de Proyecto -->
+<div *ngIf="showAssignModal" class="modal-overlay" (click)="cancelAssign()">
+  <div class="modal-content modal-assign" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Asignar Proyecto</h2>
+      <button (click)="cancelAssign()" class="close-btn">×</button>
+    </div>
+    <div class="modal-body">
+      <p *ngIf="assignTrabajador"><strong>Trabajador:</strong> {{ assignTrabajador.nombre }} {{ assignTrabajador.apellido }}</p>
+
+        <div class="form-group">
+          <label>Proyecto disponible *</label>
+          <div class="custom-select-wrapper">
+            <select [(ngModel)]="assignProyectoId" (change)="onAssignProyectoChange()" class="custom-select">
+              <option [ngValue]="null">Seleccione un proyecto...</option>
+              <option *ngFor="let proyecto of assignProyectosDisponibles" [ngValue]="proyecto.id">
+                {{ proyecto.titulo }} (Límite: {{ proyecto.fechaLimite }})
+              </option>
+            </select>
+            <div class="select-arrow">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="assignProyectoSeleccionado" class="assign-preview">
+          <div><strong>Título:</strong> {{ assignProyectoSeleccionado.titulo }}</div>
+          <div><strong>Fecha Límite:</strong> {{ assignProyectoSeleccionado.fechaLimite }}</div>
+          <div><strong>Estado:</strong> {{ assignProyectoSeleccionado.estado }}</div>
+          <div *ngIf="assignProyectoSeleccionado.trabajador" class="warning-text">
+            Este proyecto ya está asignado a {{ assignProyectoSeleccionado.trabajador.nombre }} {{ assignProyectoSeleccionado.trabajador.apellido }}. Al asignarlo se reasignará.
+          </div>
+        </div>
+
+      <div *ngIf="assignError" class="message message-error">{{ assignError }}</div>
+      <div *ngIf="assignSuccess" class="message message-success">{{ assignSuccess }}</div>
+    </div>
+    <div class="modal-footer">
+      <button (click)="cancelAssign()" class="btn btn-secondary">Cancelar</button>
+      <button (click)="confirmAssign()" class="btn btn-primary">Asignar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div *ngIf="showToggleConfirm" class="modal-overlay" (click)="cancelToggle()">
+  <div class="modal-content modal-small" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ trabajadorToToggle?.estadoRegistro === 'ACTIVO' ? 'Confirmar Desactivación' : 'Confirmar Restauración' }}</h2>
+      <button (click)="cancelToggle()" class="close-btn">×</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas {{ trabajadorToToggle?.estadoRegistro === 'ACTIVO' ? 'desactivar' : 'restaurar' }} a <strong>{{ trabajadorToToggle?.nombre }} {{ trabajadorToToggle?.apellido }}</strong>?</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="cancelToggle()" class="btn btn-secondary">Cancelar</button>
+      <button
+        (click)="toggleStatus()"
+        [ngClass]="trabajadorToToggle?.estadoRegistro === 'ACTIVO' ? 'btn btn-danger' : 'btn btn-success'">
+        {{ trabajadorToToggle?.estadoRegistro === 'ACTIVO' ? 'Desactivar' : 'Restaurar' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Éxito -->
+<div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal-content modal-small success-modal">
+    <div class="modal-body text-center">
+      <div class="success-icon">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="currentColor">
+          <circle cx="30" cy="30" r="28" fill="#10b981"/>
+          <path d="M20 30 L26 36 L40 22" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <h3>{{ successMessage }}</h3>
+    </div>
+  </div>
+</div>

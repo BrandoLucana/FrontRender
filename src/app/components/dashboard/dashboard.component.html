@@ -1,0 +1,101 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="assets/images/logoumbrella.jpg" alt="Umbrella Corporation" class="umbrella-logo" width="60" height="60">
+      </div>
+      <h2 *ngIf="!sidebarCollapsed">Sistema de Gestión</h2>
+      <p class="company-name" *ngIf="!sidebarCollapsed">UMBRELLA CORPORATION</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Dashboard</span>
+      </a>
+
+      <a routerLink="/dashboard/trabajadores" routerLinkActive="active" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Trabajadores</span>
+      </a>
+
+      <a routerLink="/dashboard/proyectos" routerLinkActive="active" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Proyectos</span>
+      </a>
+
+      <a routerLink="/dashboard/nuevo-trabajador" routerLinkActive="active" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Nuevo Trabajador</span>
+      </a>
+
+      <a routerLink="/dashboard/nuevo-proyecto" routerLinkActive="active" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
+          <path stroke="white" stroke-width="1.5" stroke-linecap="round" d="M10 9v4m-2-2h4"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Nuevo Proyecto</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button (click)="logout()" class="logout-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+        </svg>
+        <span *ngIf="!sidebarCollapsed">Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+      </button>
+
+      <div class="user-info">
+        <span class="username">{{ username }}</span>
+        <div class="user-avatar">
+          {{ username.charAt(0).toUpperCase() }}
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación de Cerrar Sesión -->
+<div *ngIf="showLogoutConfirm" class="modal-overlay" (click)="cancelLogout()">
+  <div class="modal-content modal-small modal-confirm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Confirmar Cierre de Sesión</h2>
+      <button (click)="cancelLogout()" class="close-btn">×</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Deseas cerrar sesión?</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="cancelLogout()" class="btn btn-secondary">Cancelar</button>
+      <button (click)="confirmLogout()" class="btn btn-primary">Salir</button>
+    </div>
+  </div>
+</div>

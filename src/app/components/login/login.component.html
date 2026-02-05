@@ -1,0 +1,72 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Logo de Umbrella Corporation -->
+    <div class="umbrella-logo-container">
+      <img src="assets/images/logoumbrella.jpg" alt="Umbrella Corporation" class="umbrella-logo" width="120" height="120">
+    </div>
+
+    <h1 class="company-title">UMBRELLA CORPORATION</h1>
+    <p class="company-subtitle">Sistema de Gestión de Trabajadores y Proyectos</p>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="username">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+          </svg>
+          Usuario
+        </label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Ingrese su usuario"
+          [disabled]="isLoading"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+          </svg>
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Ingrese su contraseña"
+          [disabled]="isLoading"
+          required
+        />
+      </div>
+
+      <div class="forgot-password">
+        <a href="#">¿Olvidó su contraseña?</a>
+      </div>
+
+      <button type="submit" class="login-button" [disabled]="isLoading">
+        <span *ngIf="!isLoading">INICIAR SESIÓN</span>
+        <span *ngIf="isLoading">
+          <svg class="spinner" width="20" height="20" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" opacity="0.3"/>
+            <path fill="none" stroke="currentColor" stroke-width="3" d="M12 2 A10 10 0 0 1 22 12"/>
+          </svg>
+          Ingresando...
+        </span>
+      </button>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+        </svg>
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

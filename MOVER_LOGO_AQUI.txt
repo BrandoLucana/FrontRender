@@ -1,0 +1,41 @@
+INSTRUCCIONES PARA AGREGAR EL LOGO DE UMBRELLA
+===============================================
+
+IMPORTANTE: Debes mover tu archivo de logo a la siguiente ubicación:
+
+DESDE:
+  c:\Users\PC\Pictures\FrontendDevelepers\src\app\images\logoumbrella.jpg
+
+HACIA:
+  c:\Users\PC\Pictures\FrontendDevelepers\src\assets\images\logoumbrella.jpg
+
+PASOS:
+
+1. Abre el Explorador de Archivos
+
+2. Navega a: c:\Users\PC\Pictures\FrontendDevelepers\src\app\images\
+
+3. Copia el archivo "logoumbrella.jpg"
+
+4. Navega a: c:\Users\PC\Pictures\FrontendDevelepers\src\assets\images\
+
+5. Pega el archivo aquí
+
+6. El nombre debe ser exactamente: logoumbrella.jpg (todo en minúsculas)
+
+7. Recarga la página con Ctrl+F5 para ver los cambios
+
+
+VERIFICACIÓN:
+-------------
+Una vez que hayas movido el archivo, deberías ver el logo de Umbrella en:
+- Página de Login
+- Panel izquierdo (sidebar)
+- Dashboard principal (home)
+- Todas las demás páginas que tengan el logo
+
+
+Si el logo no aparece:
+- Verifica que el archivo esté en src/assets/images/logoumbrella.jpg
+- Verifica que el nombre sea correcto (sin mayúsculas)
+- Recarga con Ctrl+F5 para limpiar caché del navegador

@@ -1,0 +1,190 @@
+<div class="home-container">
+  <div class="welcome-section">
+    <div class="welcome-logo">
+      <img src="assets/images/logoumbrella.jpg" alt="Umbrella Corporation" width="80" height="80">
+    </div>
+    <h1>Bienvenido al Sistema de Gestión</h1>
+    <p class="company-subtitle">UMBRELLA CORPORATION</p>
+    <p>Estadísticas y análisis del sistema</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="stats-grid">
+    <div class="stat-card card-purple">
+      <div class="card-background-icon">
+        <svg width="140" height="140" viewBox="0 0 40 40" fill="white" opacity="0.5">
+          <path d="M9 12a3 3 0 11-6 0 3 3 0 016 0zM17 12a3 3 0 11-6 0 3 3 0 016 0zM12.93 34c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A10 10 0 0119 32v2h-6.07zM6 22a10 10 0 0110 10v2H1v-2a10 10 0 0110-10z"/>
+        </svg>
+      </div>
+      <div class="stat-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+          <path d="M9 12a3 3 0 11-6 0 3 3 0 016 0zM17 12a3 3 0 11-6 0 3 3 0 016 0zM12.93 34c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A10 10 0 0119 32v2h-6.07zM6 22a10 10 0 0110 10v2H1v-2a10 10 0 0110-10z"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <h2>{{ totalTrabajadores }}</h2>
+        <p>Trabajadores Totales</p>
+      </div>
+      <a routerLink="/dashboard/trabajadores" class="stat-link">
+        Ver todos →
+      </a>
+    </div>
+
+    <div class="stat-card card-blue">
+      <div class="card-background-icon">
+        <svg width="140" height="140" viewBox="0 0 40 40" fill="white" opacity="0.5">
+          <path d="M6 8a2 2 0 012-2h10l4 4h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V8z"/>
+        </svg>
+      </div>
+      <div class="stat-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+          <path d="M6 8a2 2 0 012-2h10l4 4h10a2 2 0 012 2v12a2 2 0 01-2 2H8a2 2 0 01-2-2V8z"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <h2>{{ totalProyectos }}</h2>
+        <p>Proyectos Totales</p>
+      </div>
+      <a routerLink="/dashboard/proyectos" class="stat-link">
+        Ver todos →
+      </a>
+    </div>
+
+    <div class="stat-card card-yellow">
+      <div class="card-background-icon">
+        <svg width="140" height="140" viewBox="0 0 40 40" fill="white" opacity="0.5">
+          <path fill-rule="evenodd" d="M20 36a16 16 0 100-32 16 16 0 000 32zm1-24a1 1 0 10-2 0v8a1 1 0 001 1h5a1 1 0 100-2h-4v-7z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+          <path fill-rule="evenodd" d="M20 36a16 16 0 100-32 16 16 0 000 32zm1-24a1 1 0 10-2 0v8a1 1 0 001 1h5a1 1 0 100-2h-4v-7z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <h2>{{ proyectosPendientes }}</h2>
+        <p>Proyectos Pendientes</p>
+      </div>
+    </div>
+
+    <div class="stat-card card-cyan">
+      <div class="card-background-icon">
+        <svg width="140" height="140" viewBox="0 0 40 40" fill="white" opacity="0.5">
+          <path fill-rule="evenodd" d="M5 10a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H7a2 2 0 01-2-2v-8zM27 8a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2v-8a2 2 0 00-2-2h-6zM5 26a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 10a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H7a2 2 0 01-2-2v-8zM27 8a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2v-8a2 2 0 00-2-2h-6zM5 26a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <h2>{{ proyectosEnProgreso }}</h2>
+        <p>En Progreso</p>
+      </div>
+    </div>
+
+    <div class="stat-card card-green">
+      <div class="card-background-icon">
+        <svg width="140" height="140" viewBox="0 0 40 40" fill="white" opacity="0.5">
+          <path fill-rule="evenodd" d="M20 36a16 16 0 100-32 16 16 0 000 32zm7.414-18.586a2 2 0 00-2.828-2.828L18 21.172l-2.586-2.586a2 2 0 10-2.828 2.828l4 4a2 2 0 002.828 0l8-8z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+          <path fill-rule="evenodd" d="M20 36a16 16 0 100-32 16 16 0 000 32zm7.414-18.586a2 2 0 00-2.828-2.828L18 21.172l-2.586-2.586a2 2 0 10-2.828 2.828l4 4a2 2 0 002.828 0l8-8z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <h2>{{ proyectosCompletados }}</h2>
+        <p>Proyectos Completados</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-section">
+    <h2>Análisis y Estadísticas</h2>
+
+    <div class="charts-grid">
+      <!-- Gráfico de Proyectos por Estado -->
+      <div class="chart-card">
+        <h3>Distribución de Proyectos por Estado</h3>
+        <div class="chart-container">
+          <div class="bar-chart">
+            <div class="bar-item" *ngFor="let estado of estadosProyecto">
+              <div class="bar-label">{{ estado.replace('_', ' ') }}</div>
+              <div class="bar-wrapper">
+                <div
+                  class="bar-fill"
+                  [ngClass]="getEstadoClass(estado)"
+                  [style.width]="getProyectosCount(estado) > 0 ? (getProyectosCount(estado) / totalProyectos * 100) + '%' : '2%'">
+                </div>
+              </div>
+              <div class="bar-value">{{ getProyectosCount(estado) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráfico de Trabajadores por Cargo -->
+      <div class="chart-card">
+        <h3>Trabajadores por Cargo</h3>
+        <div class="chart-container">
+          <div class="list-chart">
+            <div class="list-item" *ngFor="let cargo of cargosStats">
+              <div class="list-label">
+                <span class="cargo-badge-small">{{ cargo.name }}</span>
+              </div>
+              <div class="list-progress">
+                <div
+                  class="progress-bar"
+                  [style.width]="cargo.count > 0 ? (cargo.count / totalTrabajadores * 100) + '%' : '2%'">
+                </div>
+              </div>
+              <div class="list-value">{{ cargo.count }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen de Actividad -->
+    <div class="activity-summary">
+      <div class="summary-card">
+        <h4>Tasa de Finalización</h4>
+        <div class="percentage-circle">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path class="circle"
+              [attr.stroke-dasharray]="getCompletionRate() + ', 100'"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" class="percentage">{{ getCompletionRate() }}%</text>
+          </svg>
+        </div>
+        <p>Proyectos completados</p>
+      </div>
+
+      <div class="summary-card">
+        <h4>Promedio de Proyectos</h4>
+        <div class="big-number">{{ getProyectosPorTrabajador() }}</div>
+        <p>Por trabajador activo</p>
+      </div>
+
+      <div class="summary-card">
+        <h4>Trabajadores Activos</h4>
+        <div class="big-number">{{ trabajadoresActivos }}</div>
+        <p>De {{ totalTrabajadores }} totales</p>
+      </div>
+    </div>
+  </div>
+</div>
