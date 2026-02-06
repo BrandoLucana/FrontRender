@@ -70,7 +70,41 @@ html, body {
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    min-height: 40px;
+  }
+}
+
+/* Mejoras para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+
+  .filter-btn {
+    min-height: 44px;
+  }
+
+  .btn-clear {
+    min-height: 44px;
+  }
 }
 
 .btn-primary {

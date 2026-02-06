@@ -917,7 +917,162 @@
     gap: 16px;
   }
 
+  .page-header .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  /* Búsqueda responsive */
+  .search-section {
+    margin-bottom: 20px;
+  }
+
+  .search-compact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .search-field {
+    width: 100%;
+  }
+
+  .search-field input,
+  .search-field select,
+  .custom-search-select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .search-actions {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .btn-clear {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Filtros responsive */
+  .filters-container {
+    margin-bottom: 20px;
+  }
+
+  .filter-block {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+
+  .filter-block h3 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .filter-btn {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .table-container {
-    overflow-x: scroll;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .proyectos-table {
+    min-width: 700px;
+  }
+}
+
+/* Tablet responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .search-compact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .search-field:last-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .search-actions {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .filter-btn {
+    min-width: 120px;
+  }
+}
+
+/* Dispositivos muy pequeños */
+@media (max-width: 480px) {
+  .header-title h1 {
+    font-size: 1.4rem;
+  }
+
+  .search-compact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .filter-block {
+    padding: 12px;
+  }
+
+  .filter-buttons {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    min-height: 40px;
+  }
+
+  .page-header .btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .btn-clear {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filters-container {
+    grid-template-columns: 1fr;
+  }
+
+  .proyectos-table {
+    min-width: 600px;
+    font-size: 0.85rem;
+  }
+
+  .table-container {
+    border-radius: 8px;
   }
 }

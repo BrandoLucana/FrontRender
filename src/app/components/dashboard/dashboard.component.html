@@ -1,6 +1,9 @@
 <div class="dashboard-container">
+  <!-- Overlay para móviles -->
+  <div class="overlay" [class.active]="!sidebarCollapsed && isMobile" (click)="toggleSidebar()"></div>
+
   <!-- Sidebar -->
-  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed" [class.mobile]="isMobile">
     <div class="sidebar-header">
       <div class="logo-container">
         <img src="assets/images/logoumbrella.jpg" alt="Umbrella Corporation" class="umbrella-logo" width="60" height="60">
@@ -10,28 +13,28 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeSidebarOnMobile()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
         </svg>
         <span *ngIf="!sidebarCollapsed">Dashboard</span>
       </a>
 
-      <a routerLink="/dashboard/trabajadores" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard/trabajadores" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
         </svg>
         <span *ngIf="!sidebarCollapsed">Trabajadores</span>
       </a>
 
-      <a routerLink="/dashboard/proyectos" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard/proyectos" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
         </svg>
         <span *ngIf="!sidebarCollapsed">Proyectos</span>
       </a>
 
-      <a routerLink="/dashboard/nuevo-trabajador" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard/nuevo-trabajador" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd"/>
@@ -39,7 +42,7 @@
         <span *ngIf="!sidebarCollapsed">Nuevo Trabajador</span>
       </a>
 
-      <a routerLink="/dashboard/nuevo-proyecto" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard/nuevo-proyecto" routerLinkActive="active" class="nav-item" (click)="closeSidebarOnMobile()">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
           <path stroke="white" stroke-width="1.5" stroke-linecap="round" d="M10 9v4m-2-2h4"/>
@@ -62,7 +65,7 @@
   <div class="main-content">
     <!-- Top Bar -->
     <header class="top-bar">
-      <button class="menu-toggle" (click)="toggleSidebar()">
+      <button class="menu-toggle" [class.mobile-visible]="isMobile" (click)="toggleSidebar()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
         </svg>
